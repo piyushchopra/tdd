@@ -1,6 +1,6 @@
 package com.piyush.tddjunit.tddjunit.model;
 
-public class Money {
+public class Money implements Expression {
 
     protected int amount;
     protected String currency;
@@ -38,5 +38,14 @@ public class Money {
                 "amount=" + amount +
                 ", currency='" + currency + '\'' +
                 '}';
+    }
+
+    @Override
+    public Money reduce(Bank bank, String to) {
+        return new Money(amount/bank.rate(this.currency, to), to);
+    }
+
+    public Expression plus(Money addend){
+        return new Sum(this, addend);
     }
 }
